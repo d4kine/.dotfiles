@@ -1,0 +1,100 @@
+!
+! ~/.Xresources
+! 
+! ---------------------------------------------------------------------
+! Configuration for X Resources
+! vim: set ft=xdefaults:
+
+!--------------------------------------------------
+!                      X F T
+!--------------------------------------------------
+Xft.dpi:        		130
+Xft.antialias:  		true
+Xft.rgba:       		rgb
+Xft.hinting:    		true
+Xft.hintstyle:  		hintfull
+Xft.autohint: 			0
+Xft.lcdfilter: 			lcddefault
+Xcursor.theme:			neutral
+
+!--------------------------------------------------
+!                     F O N T
+!--------------------------------------------------
+*.font:	Liberation Mono:pixelsize=20:antialias=true:autohint=true;
+*.alpha: 				215
+
+
+!--------------------------------------------------
+!                   C O L O R S
+!--------------------------------------------------
+!#include ".config/colors/d4kine"
+
+*.background:   		#0c0a0d
+*.color0:       		#0c0a0d
+*.color1:       		#493C45
+*.color10:      		#6A3D43
+*.color11:      		#504952
+*.color12:      		#6B565C
+*.color13:      		#5A5862
+*.color14:      		#955C5B
+*.color15:      		#cfa79c
+*.color2:       		#6A3D43
+*.color3:       		#504952
+*.color4:       		#6B565C
+*.color5:       		#5A5862
+*.color6:       		#955C5B
+*.color66:      		#0c0a0d
+*.color7:       		#cfa79c
+*.color8:       		#90746d
+*.color9:       		#493C45
+
+*background:    		#0c0a0d
+*color0:        		#0c0a0d
+*color1:        		#493C45
+*color10:       		#6A3D43
+*color11:       		#504952
+*color12:       		#6B565C
+*color13:       		#5A5862
+*color14:       		#955C5B
+*color15:       		#cfa79c
+*color2:        		#6A3D43
+*color3:        		#504952
+*color4:        		#6B565C
+*color5:        		#5A5862
+*color6:        		#955C5B
+*color66:       		#0c0a0d
+*color7:        		#cfa79c
+*color8:        		#90746d
+*color9:        		#493C45
+*foreground:    		#cfa79c
+
+
+
+
+
+
+URxvt*background:       [100]#0c0a0d
+URxvt*borderColor:      [100]#0c0a0d
+URxvt*cursorColor:      #cfa79c
+URxvt*depth:    		32
+URxvt*foreground:       #cfa79c
+
+UXTerm*background:      #0c0a0d
+UXTerm*cursorColor:     #cfa79c
+UXTerm*foreground:      #cfa79c
+
+
+XClock*background:      #0c0a0d
+XClock*foreground:      #cfa79c
+XClock*hourColor:       rgba:cf/a7/9c/ff
+XClock*majorColor:      rgba:cf/a7/9c/ff
+XClock*minorColor:      rgba:cf/a7/9c/ff
+XClock*minuteColor:     rgba:cf/a7/9c/ff
+XClock*secondColor:     rgba:cf/a7/9c/ff
+
+XTerm*background:       #0c0a0d
+XTerm*cursorColor:      #cfa79c
+XTerm*foreground:       #cfa79c
+
+emacs*background:       #0c0a0d
+emacs*foreground:       #cfa79c
