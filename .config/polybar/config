@@ -13,16 +13,20 @@
 ;                        C O L O R S
 ;------------------------------------------------------------
 [colors]
-background 		= ${xrdb:color0:#222}
+background 		= ${env:color0_alpha}
+#background 		= ${xrdb:color0:#222}
 background-alt 	= ${xrdb:color3:#222}
 foreground 		= ${xrdb:color7:#fff}
 foreground-alt	= ${xrdb:color6:#fff}
 primary 		= ${xrdb:color1:#222}
 secondary 		= ${xrdb:color2:#222}
 alert 			= ${xrdb:color3:#222}
+
+alpha_ff 		= #FF00000
 spotify-green	= #84bd00
 arch-blue		= #1793d1
 ubuntu-orange	= #e95420
+
 
 [global/wm]
 margin-top = 5
@@ -36,26 +40,27 @@ margin-bottom = 5
 ;------------------------------------------------------------
 [settings]
 screenchange-reload = true
-;compositing-background = xor
+compositing-background = xor
 ;compositing-background = screen
 ;compositing-foreground = source
-;compositing-border = over
+compositing-border = over
 
 
 
 ;------------------------------------------------------------
 ;                       M A I N B A R
 ;------------------------------------------------------------
-
+; https://github.com/jaagr/polybar/issues/597
 [bar/default]
-monitor = ${env:MONITOR:DP-1}
+monitor = ${env:MONITOR}
 width = 100%
 height = 40
-radius = 5.0
-offset-x = 0%
-offset-y = 0%
+offset-x = 3%
+offset-y = 0
 fixed-center = true
-border-size = 5
+override-redirect = false;
+border-size = 7
+radius = 5.0
 border-color = #00000000
 
 background = ${colors.background}
@@ -106,13 +111,14 @@ cursor-click = pointer
 cursor-scroll = pointer
 
 
-
+;------------------------------------------------------------
+;                       S P A C E R
+;------------------------------------------------------------
 [module/spacer]
 type = custom/text
 content = "  "
-content-foreground = ${colors.foreground}
-content-background = ${colors.background}
-
+content-foreground = ${colors.full_alpha}
+content-background = ${colors.full_alpha}
 
 
 ;------------------------------------------------------------
@@ -190,8 +196,18 @@ label-empty-padding = 2
 type = internal/i3
 format-prefix = " "
 format = <label-state> <label-mode>
-index-sort = true
+;index-sort = true
 wrapping-scroll = false
+
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 4;
+ws-icon-4 = 5;
+ws-icon-5 = 6;
+ws-icon-6 = 7;7
+ws-icon-7 = 8;8
+;    
 
 ; Only show workspaces on the same output as the bar
 ;pin-workspaces = true
@@ -201,23 +217,23 @@ label-mode-foreground = #000
 label-mode-background = ${colors.primary}
 
 ; focused = Active workspace on focused monitor
-label-focused = %index%
+label-focused = %icon% %name%
 label-focused-background = ${module/bspwm.label-focused-background}
 label-focused-underline = ${module/bspwm.label-focused-underline}
 label-focused-padding = ${module/bspwm.label-focused-padding}
 
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %index%
+label-unfocused = %icon% %name%
 label-unfocused-padding = ${module/bspwm.label-occupied-padding}
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %index%
+label-visible = %icon% %name%
 label-visible-background = ${self.label-focused-background}
 label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-focused-padding}
 
 ; urgent = Workspace with urgency hint set
-label-urgent = %index%
+label-urgent = %icon% %name%
 label-urgent-background = ${module/bspwm.label-urgent-background}
 label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
@@ -371,7 +387,7 @@ interval = 1.0
 date = %H:%M
 date-alt = %A, %d %B %Y, %H:%M:%S
 label = %date%
-format = "  <label> "
+format = "   <label> "
 format-background = ${colors.background}
 format-foreground = ${colors.foreground}
 
