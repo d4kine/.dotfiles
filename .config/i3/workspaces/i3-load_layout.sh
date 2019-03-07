@@ -10,6 +10,7 @@ i3-msg 'workspace 2; append_layout ~/.config/i3/workspaces/layout-2.json'
 i3-msg 'workspace 2; exec /usr/bin/chromium'
 
 i3-msg 'workspace 4; exec /usr/bin/mailspring --background'
+i3-msg 'workspace 4; exec /usr/bin/code'
 
 i3-msg 'workspace 5; append_layout ~/.config/i3/workspaces/layout-3.json'
 i3-msg 'workspace 5; exec /usr/bin/telegram-desktop'
