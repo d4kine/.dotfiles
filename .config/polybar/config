@@ -13,6 +13,9 @@
 ;                        C O L O R S
 ;------------------------------------------------------------
 [colors]
+
+module-bg 		= #BB000000
+
 background 		= ${env:color0_alpha}
 #background 		= ${xrdb:color0:#222}
 background-alt 	= ${xrdb:color3:#222}
@@ -20,9 +23,9 @@ foreground 		= ${xrdb:color7:#fff}
 foreground-alt	= ${xrdb:color6:#fff}
 primary 		= ${xrdb:color1:#222}
 secondary 		= ${xrdb:color2:#222}
-alert 			= ${xrdb:color3:#222}
+alert 			= ${xrdb:color5:#fff}
 
-alpha_ff 		= #FF00000
+alpha_full 		= #FF00000
 spotify-green	= #84bd00
 arch-blue		= #1793d1
 ubuntu-orange	= #e95420
@@ -40,18 +43,25 @@ margin-bottom = 5
 ;------------------------------------------------------------
 [settings]
 screenchange-reload = true
-compositing-background = xor
-;compositing-background = screen
-;compositing-foreground = source
-compositing-border = over
+;pseudo-transparency = true
 
+;throttle-output-for = 10
+;throttle-output = 5
+;throttle-input-for = 40
+
+;over screen & xor
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = xor
+;compositing-foreground = source
+;compositing-border = over
 
 
 ;------------------------------------------------------------
 ;                       M A I N B A R
 ;------------------------------------------------------------
 ; https://github.com/jaagr/polybar/issues/597
-[bar/default]
+[bar/top]
 monitor = ${env:MONITOR}
 width = 100%
 height = 40
@@ -70,27 +80,24 @@ line-color = #f00
 underline-size = 0
 underline-color = #eee
 
-
 spacing = 0
 padding-left = 0
 padding-right = 0
 module-margin-left = 0
 module-margin-right = 0
 
-font-0 = "Aller:style:Regular:pixelsize=15;2"
-font-1 = "Noto Sans:style:Regular:pixelsize=15;2"
-font-2 = "Inconsolata Nerd Font:style:Regular:pixelsize=17;3"
-#font-2 = "Weather Icons:size=15;2"
+font-0 = "Aller:style:Regular:pixelsize=16;2"
+font-1 = "Inconsolata Nerd Font:style:Regular:pixelsize=17;1"
+;font-2 = "MesloLGM Nerd Font Mono:style:RegularForPowerline:pixelsize=55;2"
 
-modules-left = powermenu spacer i3 spacer xwindow
+modules-left = powermenu spacer i3 spacer spacer_l xwindow spacer_r
 modules-center = spotify
-modules-right = openweathermap spacer bluetooth spacer uptime spacer alsa spacer date spacer
+modules-right = openweathermap spacer bluetooth spacer uptime spacer pulseaudio spacer date spacer
 
 tray-position = right
-tray-detach = true
-tray-maxsize = 20
-;tray-transparent = true
-;tray-background = #0063ff
+tray-detach = false
+tray-maxsize = 25
+tray-background = ${colors.module-bg}
 tray-offset-x = 0
 tray-offset-y = 0
 tray-padding = 0
@@ -109,14 +116,96 @@ cursor-click = pointer
 cursor-scroll = pointer
 
 
+
+
+
+
+
+
 ;------------------------------------------------------------
 ;                       S P A C E R
 ;------------------------------------------------------------
 [module/spacer]
 type = custom/text
-content = "  "
-content-foreground = ${colors.full_alpha}
-content-background = ${colors.foreground}
+content = " "
+content-foreground = ${colors.alpha_full}
+content-background = ${colors.alpha_full}
+content-padding = 3
+
+
+[module/spacer_l]
+type = custom/text
+content = " "
+content-foreground = ${xrdb:color1}
+content-background = ${colors.alpha_full}
+
+[module/spacer_r]
+type = custom/text
+content = " "
+content-foreground = ${xrdb:color1}
+content-background = ${colors.alpha_full}
+
+ 
+;------------------------------------------------------------
+;                            I 3
+;------------------------------------------------------------
+[module/i3]
+type = internal/i3
+label = %token:0:10%
+format = <label-state> <label-mode>
+format-background = ${colors.background}
+format-padding = 4
+
+;index-sort = true
+wrapping-scroll = false
+
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 4;4
+ws-icon-4 = 5;
+ws-icon-5 = 6;
+ws-icon-6 = 7;
+ws-icon-7 = 8;8
+;                     
+
+
+; Only show workspaces on the same output as the bar
+;pin-workspaces = true
+
+
+label-mode-padding = 2
+label-mode-background = ${colors.module-bg}
+label-mode-foreground = ${colors.ubuntu-orange}
+
+; focused = Active workspace on focused monitor
+label-focused = %icon%
+label-focused-background = ${colors.background-alt}
+label-focused-foreground = ${colors.foreground}
+label-focused-underline = ${colors.primary}
+label-focused-padding = 2
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %icon%
+label-unfocused-padding = 2
+label-unfocused-background = ${colors.module-bg}
+
+; visible = Active workspace on unfocused monitor
+label-visible = %icon%
+label-visible-background = ${colors.module-bg}
+label-visible-underline = ${colors.primary}
+label-visible-padding = 2
+
+; urgent = Workspace with urgency hint set
+label-urgent = %icon%
+label-urgent-background = ${colors.alert}
+label-urgent-foreground = ${colors.ubuntu-orange}
+label-urgent-padding = 2
+
+label-empty = %icon%
+label-empty-foreground = ${colors.foreground-alt}
+label-empty-padding = 2
+
 
 
 ;------------------------------------------------------------
@@ -124,8 +213,10 @@ content-background = ${colors.foreground}
 ;------------------------------------------------------------
 [module/xwindow]
 type = internal/xwindow
-format-prefix = " "
-label = %title:0:50:...%
+label = "%title:0:50:...%"
+format = <label>
+format-background = ${colors.module-bg}
+format-padding = 4
 
 
 ;------------------------------------------------------------
@@ -161,83 +252,6 @@ mount-0 = /
 label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
-
-
-
-;------------------------------------------------------------
-;                      I 3 / B S P W M
-;------------------------------------------------------------
-[module/bspwm]
-type = internal/bspwm
-
-label-focused = %index%
-label-focused-background = ${colors.background-alt}
-label-focused-underline= ${colors.primary}
-label-focused-padding = 2
-
-label-occupied = %index%
-label-occupied-padding = 2
-
-label-urgent = %index%!
-label-urgent-background = ${colors.alert}
-label-urgent-padding = 2
-
-label-empty = %index%
-label-empty-foreground = ${colors.foreground-alt}
-label-empty-padding = 2
-
-; Separator in between workspaces
-; label-separator = |
-
-
-[module/i3]
-type = internal/i3
-format-prefix = " "
-format = <label-state> <label-mode>
-;index-sort = true
-wrapping-scroll = false
-
-ws-icon-0 = 1;
-ws-icon-1 = 2;
-ws-icon-2 = 3;
-ws-icon-3 = 4;
-ws-icon-4 = 5;
-ws-icon-5 = 6;
-ws-icon-6 = 7;7
-ws-icon-7 = 8;8
-;    
-
-; Only show workspaces on the same output as the bar
-;pin-workspaces = true
-
-label-mode-padding = 2
-label-mode-foreground = #000
-label-mode-background = ${colors.primary}
-
-; focused = Active workspace on focused monitor
-label-focused = %icon% %name%
-label-focused-background = ${module/bspwm.label-focused-background}
-label-focused-underline = ${module/bspwm.label-focused-underline}
-label-focused-padding = ${module/bspwm.label-focused-padding}
-
-; unfocused = Inactive workspace on any monitor
-label-unfocused = %icon% %name%
-label-unfocused-padding = ${module/bspwm.label-occupied-padding}
-
-; visible = Active workspace on unfocused monitor
-label-visible = %icon% %name%
-label-visible-background = ${self.label-focused-background}
-label-visible-underline = ${self.label-focused-underline}
-label-visible-padding = ${self.label-focused-padding}
-
-; urgent = Workspace with urgency hint set
-label-urgent = %icon% %name%
-label-urgent-background = ${module/bspwm.label-urgent-background}
-label-urgent-padding = ${module/bspwm.label-urgent-padding}
-
-; Separator in between workspaces
-; label-separator = |
-
 
 
 ;----------------------------------------------------------
@@ -384,62 +398,34 @@ type = internal/date
 interval = 1.0
 date = %H:%M
 date-alt = %A, %d %B %Y, %H:%M:%S
-label = %date%
-format = "   <label> "
-format-background = ${colors.background}
-format-foreground = ${colors.foreground}
-
+label = %date% 
+format = " <label>"
+format-background = ${colors.module-bg}
+format-padding = 4
 
 ;------------------------------------------------------------
 ;                         A U D I O
 ;------------------------------------------------------------
 [module/pulseaudio]
-type = internal/alsa
-format-volume = <label-volume> <bar-volume>
-label-volume = VOL %percentage%%
-label-volume-foreground = ${root.foreground}
+type = internal/pulseaudio
 
-label-muted = 🔇 muted
-label-muted-foreground = #666
+; Sink to be used, if it exists (find using `pacmd list-sinks`, name field)
+sink = alsa_output.pci-0000_00_1b.0.iec958-stereo
+use-ui-max = false
+interval = 5
 
-bar-volume-width = 10
-bar-volume-foreground-0 = #55aa55
-bar-volume-foreground-1 = #55aa55
-bar-volume-foreground-2 = #55aa55
-bar-volume-foreground-3 = #55aa55
-bar-volume-foreground-4 = #55aa55
-bar-volume-foreground-5 = #f5a70a
-bar-volume-foreground-6 = #ff5555
-bar-volume-gradient = false
-bar-volume-indicator = |
-bar-volume-indicator-font = 2
-bar-volume-fill = ─
-bar-volume-fill-font = 2
-bar-volume-empty = ─
-bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground-alt}
-
-
-
-
-
-
-[module/alsa]
-type = internal/alsa
-
-format-volume = <ramp-volume>  <label-volume>
-format-muted = <label-muted>
-label-volume = %percentage%
-label-muted =   muted
-label-muted-foreground = #aaa
-format-volume-padding = 3
-format-muted-padding = 3
-
+label-volume = %percentage%%
 ramp-volume-0 = 
 ramp-volume-1 = 
 ramp-volume-2 = 
-ramp-headphones-0 = 
+format-volume = "<ramp-volume> <label-volume>"
+format-volume-background = ${colors.module-bg}
+format-volume-padding = 4
 
+label-muted = 婢 mute
+format-muted = <label-muted>
+format-muted-background = ${colors.module-bg}
+format-muted-padding = 4
 
 
 ;------------------------------------------------------------
@@ -475,25 +461,29 @@ ramp-4-foreground = #ff5555
 ;------------------------------------------------------------
 [module/bluetooth]
 type = custom/script
-format-prefix = "  "
-format-suffix = "  "
 interval = 10
 exec = ~/bin/bluetooth_connect.sh status
+
 click-left = ~/bin/bluetooth_connect.sh connect
 click-right = exec pavucontrol
 click-middle = ~/bin/bluetooth_connect.sh disconnect
+
+format = <label>
+format-background = ${colors.module-bg}
+format-padding = 4
 
 #------------------------------- Custom Menus --------------------------------#
 
 [module/powermenu]
 type = custom/menu
 expand-right = true
-format-spacing = 1
-format-prefix = "  "
-format-suffix = "  "
+format-spacing = 5
+
+format-background = ${colors.module-bg}
+format-padding = 4
+
 label-open = "  "
 label-open-foreground = ${colors.arch-blue}
-;label-open-background = #ffffff
 label-close = "  "
 label-close-foreground = ${colors.foreground}
 label-separator = 
@@ -511,35 +501,59 @@ menu-0-2-exec = shutdown now
 
 
 
-
-
 #------------------------------ Custom modules -------------------------------#
+
+
+[module/pkgupdates-available]
+type = custom/script
+
+; Available tokens:
+;   %counter%
+; Command to be executed (using "/usr/bin/env sh -c [command]")
+exec = checkforupdates
+
+; Conditional command that, if defined, needs to exit successfully
+; before the main exec command is invoked.
+; Default: ""
+exec-if = pgrep -x myservice
+
+; Will the script output continous content?
+; Default: false
+tail = true
+
+; Seconds to sleep between updates
+; Default: 5 (0 if `tail = true`)
+interval = 90
+
+
 
 [module/openweathermap]
 type = custom/script
 exec = ~/bin/openweathermap-simple.sh
-format-prefix = "  "
-format-suffix = "  "
 interval = 600
-
+click-left = "firefox https://www.wetteronline.de/wetter/k%C3%B6ln"
+format = <label>
+format-background = ${colors.module-bg}
+format-padding = 4
 
 [module/uptime]
 type = custom/script
 exec = ~/bin/uptime.sh
-format-prefix = "  "
-format-suffix = "  "
 interval = 30
+format = <label>
+format-background = ${colors.module-bg}
+format-padding = 4
 
 
 [module/spotify]
 type = custom/script
 exec = ~/bin/spotify.sh
-format-prefix = "   "
-format-prefix-foreground = ${colors.spotify-green}
-format-suffix = " "
 interval = 2
 click-left = i3-msg "[class=Spotify] focus"
-
+format-prefix = "   "
+format-prefix-foreground = ${colors.spotify-green}
+format-background = ${colors.module-bg}
+format-padding = 4
 
 
 
@@ -578,23 +592,6 @@ animation-charging-framerate = 750
 
 
 
-
-
-[module/volume]
-type = internal/volume
-
-format-volume = <ramp-volume>  <label-volume>
-format-muted = <label-muted>
-label-volume = %percentage%
-label-muted =   muted
-label-muted-foreground = #aaa
-format-volume-padding = 3
-format-muted-padding = 3
-
-ramp-volume-0 = 
-ramp-volume-1 = 
-ramp-volume-2 = 
-ramp-headphones-0 = 
 
 
 
@@ -645,3 +642,72 @@ click-left = ~/.config/i3/scripts/betterlockscreen -l blur
 type = custom/text
 content = "  "
 click-left = scrot -e 'feh $f -x' --delay 1
+
+
+
+;------------------------------------------------------------
+;                         B S P W M
+;------------------------------------------------------------
+[module/bspwm]
+type = internal/bspwm
+
+label-focused = %index%
+label-focused-background = ${colors.background-alt}
+label-focused-underline= ${colors.primary}
+label-focused-padding = 2
+
+label-occupied = %index%
+label-occupied-padding = 2
+
+label-urgent = %index%!
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
+
+label-empty = %index%
+label-empty-foreground = ${colors.foreground-alt}
+label-empty-padding = 2
+
+; Separator in between workspaces
+; label-separator = |
+
+
+
+
+
+
+
+
+
+
+; =========== PLAYGROUND ==============
+[bar/bottom]
+monitor = ${env:MONITOR:DP-1}
+width = 5%
+height = 50
+offset-x = 0.1%
+offset-y = 97.5%
+fixed-center = true
+border-size = 0
+radius = 5.0
+override-redirect = true
+background = #44000000
+foreground = ${colors.foreground-alt}
+line-size = 0
+line-color = #f00
+underline-size = 0
+underline-color = #eee
+spacing = 0
+padding-left = 0
+padding-right = 0
+module-margin-left = 0
+module-margin-right = 0
+font-0 = "Inconsolata Nerd Font:style:Regular:pixelsize=25"
+modules-center = redhat
+cursor-click = pointer
+cursor-scroll = pointer
+
+[module/redhat]
+type = custom/text
+content = "    "
+
+
