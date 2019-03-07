@@ -179,10 +179,6 @@ export XDG_USER_CONFIG_DIR='$HOME/.config'
   if command -v "prettyping" > /dev/null 2>&1; then
     alias ping='prettyping --nolegend'
   fi
-  
-  if command -v "ncdu" > /dev/null 2>&1; then
-    alias du='ncdu'
-  fi
 
   if command -v "get_flash_videos" > /dev/null 2>&1; then
       alias gfv='get_flash_videos -r 720p --subtitles'
