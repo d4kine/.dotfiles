@@ -1,6 +1,8 @@
 # .dotfiles
 my config-files for different tools like i3, rofi, polybar, etc.
 
+Managed with Gnus magic tool stow -> https://www.gnu.org/software/stow/
+
 ```sh
 # clone, change directory and symlink with stow
 git clone ~ && cd ~/.dotfiles
