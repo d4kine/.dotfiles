@@ -190,6 +190,8 @@ export XDG_USER_CONFIG_DIR='$HOME/.config'
 
   if command -v "kubectl" > /dev/null 2>&1; then
     source <(kubectl completion bash)
+    alias k=kubectl
+    complete -F __start_kubectl k
   fi
 
   if [ -n "$DESKTOP_SESSION" ];then
