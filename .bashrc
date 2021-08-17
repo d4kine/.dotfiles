@@ -165,7 +165,7 @@ export XDG_USER_CONFIG_DIR='$HOME/.config'
 # TOOLS
 # https://github.com/junegunn/fzf-bin/releases
   if command -v "bat" > /dev/null 2>&1; then
-    alias cat='bat'
+    alias cat='bat -p --paging=never'
   fi
 
   if command -v "ranger" > /dev/null 2>&1; then
